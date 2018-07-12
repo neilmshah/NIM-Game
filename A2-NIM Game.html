@@ -1,0 +1,256 @@
+<!-- Program for a NIM game between 2 players -->
+<html>
+<head>
+<style>
+
+  * {box-sizing:border-box;}
+
+  body {background: url("./background1.png");}
+
+  header {
+	background-color: rgba(25, 137, 248  ,0.5);
+	padding: 10px;
+	font-size:40px;
+	width:100%;
+	height:10%; 
+	border-radius:15px;
+	text-align:center;
+  }
+  .container1 {
+	width:25%;
+	height:60px;	
+	background-color: rgba(255, 87, 51   ,0.5);
+	padding:15px;
+	margin:auto;
+	border-radius:15px;
+	text-align:center;
+  }
+
+  .container2 {
+	width:60%;
+	height:400px;	
+	background-color: rgba(218, 218, 218,0.6);
+	padding:15px;
+	margin:auto;
+	border-radius:15px;
+	text-align:center;
+	visibility:hidden;
+  }
+ 
+  .box1{
+	width:40%;
+	height:150px;
+	visibility:hidden;
+	padding:10px;
+	float:left;
+	margin-left:70px;
+	border:2px solid black;
+	border-radius:15px;
+  }
+
+  .box2{
+	width:40%;
+	height:150px;
+	visibility:hidden;
+	padding:10px;
+	float:left;
+	border:2px solid black;
+	margin-left:25px;
+	border-radius:15px;
+  }
+  
+  label{ display:inline-block;
+	 width:50px;
+  }
+	
+</style>
+<body>
+  <header>NIM GAME</header>
+  <br><br>
+  <div class="container1">
+    <button onclick="instructions()" >Instructions</button>
+    <button onclick="startGame()">Start New Game</button>
+  </div>
+  <br><br>
+  <div class="container2" id="game">
+	<h3>No of Stones:</h3>
+	<p id="stones"></p>
+ 	<br><br><br><br><br>
+	<div class="box1">
+	  <p id="p1"></p>
+	  <button onclick="remove1(this)" name="Player 1">Remove 1</button>
+	  <button onclick="remove2(this)" name="Player 1">Remove 2</button>
+	  <button onclick="remove3(this)" name="Player 1">Remove 3</button>
+	</div>
+	<div class="box2">
+	  <p id="p2"></p>
+	  <button onclick="remove1(this)" name="Player 2">Remove 1</button>
+	  <button onclick="remove2(this)" name="Player 2">Remove 2</button>
+	  <button onclick="remove3(this)" name="Player 2">Remove 3</button>
+	</div>
+  </div>	
+</body>
+<script>
+
+function instructions(){
+	alert("Nim is a mathematical game of strategy in which two players take turns removing objects from distinct heaps, which has following rules: (1) There is a heap of stones on the table, each time one of you take turns to remove 1 to 3 stones. (2) The one who removes the last stone will be the winner.");
+}
+
+function startGame(){
+	var gameBox = document.getElementById("game");
+	gameBox.style.visibility="visible";
+	
+	var name1 = prompt("Enter Player 1's Name:");
+	document.getElementById("p1").innerHTML = name1;
+	var name2 = prompt("Enter Player 2's Name:");
+	document.getElementById("p2").innerHTML = name2;
+
+	var stones = parseInt(prompt("How many stones would you like to start with?"));
+	if(stones<=0){
+	   alert("Please enter a value greater than 0");
+	   return;
+	}
+	if(isNaN(stones)){
+	   alert("Please enter a value greater than 0");
+	   return;
+	}
+	console.log(stones);
+	document.getElementById("stones").innerHTML=stones;
+	alert(name1 + " goes first");
+
+	var game = document.getElementById("game");
+	game.style.visibility="visible";
+	
+	var p1 = document.getElementsByClassName("box1");
+	var p2 = document.getElementsByClassName("box2");
+	p1[0].style.visibility="visible";
+	p2[0].style.visibility="hidden";
+}
+
+function remove1(player){
+	var stones = parseInt(document.getElementById("stones").innerHTML);
+	if(stones==0){
+	  alert("The game is over. Please start a new game");
+	  return;
+	}	
+
+	stones = stones - 1;
+	document.getElementById("stones").innerHTML=stones;
+	if(stones==0){
+	  if(player.name=="Player 1"){
+	    alert("Congratulations " + document.getElementById("p1").innerHTML + "!! You have won!");
+	    return;
+	  } else {
+	    alert("Congratulations " + document.getElementById("p2").innerHTML + "!! You have won!");
+	    return;
+	  }
+        }
+	if(stones==4){
+	  if(player.name=="Player 1"){
+	    alert("Congratulations " + document.getElementById("p1").innerHTML + "! Irrespective of what " + document.getElementById("p2").innerHTML + " does now, you will win the game!");
+	  } else {
+	    alert("Congratulations " + document.getElementById("p2").innerHTML + "! Irrespective of what " + document.getElementById("p1").innerHTML + " does now, you will win the game!");
+	  }
+	}
+	 
+	if(player.name=="Player 1"){
+	    var p1 = document.getElementsByClassName("box1");
+	    var p2 = document.getElementsByClassName("box2");
+	    p1[0].style.visibility = "hidden";
+	    p2[0].style.visibility = "visible";
+	} else {
+	    var p1 = document.getElementsByClassName("box1");
+	    var p2 = document.getElementsByClassName("box2");
+	    p1[0].style.visibility = "visible";
+	    p2[0].style.visibility = "hidden";
+	}
+}
+
+function remove2(player){
+	var stones = parseInt(document.getElementById("stones").innerHTML);
+	if(stones==0){
+	  alert("The game is over. Please start a new game");
+	  return;
+	}
+	if(stones-2<0){
+	  alert("Cannot remove 2 stones as there are only " + stones + " stones left");
+	  return;
+	}	
+
+	stones = stones - 2;
+	document.getElementById("stones").innerHTML=stones;
+	if(stones==0){
+	  if(player.name=="Player 1"){
+	    alert("Congratulations " + document.getElementById("p1").innerHTML + "!! You have won!");
+	    return;
+	  } else {
+	    alert("Congratulations " + document.getElementById("p2").innerHTML + "!! You have won!");
+	    return;
+	  }
+        }
+	if(stones==4){
+	  if(player.name=="Player 1"){
+	    alert("Congratulations " + document.getElementById("p1").innerHTML + "! Irrespective of what " + document.getElementById("p2").innerHTML + " does now, you will win the game!");
+	  } else {
+	    alert("Congratulations " + document.getElementById("p2").innerHTML + "! Irrespective of what " + document.getElementById("p1").innerHTML + " does now, you will win the game!");
+	  }
+	}
+
+	if(player.name=="Player 1"){
+	    var p1 = document.getElementsByClassName("box1");
+	    var p2 = document.getElementsByClassName("box2");
+	    p1[0].style.visibility = "hidden";
+	    p2[0].style.visibility = "visible";
+	} else {
+	    var p1 = document.getElementsByClassName("box1");
+	    var p2 = document.getElementsByClassName("box2");
+	    p1[0].style.visibility = "visible";
+	    p2[0].style.visibility = "hidden";
+	}
+}
+
+function remove3(player){
+	var stones = parseInt(document.getElementById("stones").innerHTML);
+	if(stones==0){
+	  alert("The game is over. Please start a new game");
+	  return;
+	}
+	if(stones-3<0){
+	  alert("Cannot remove 3 stones as there are only " + stones + " stones left");
+	  return;
+	}
+
+	stones = stones - 3;
+	document.getElementById("stones").innerHTML=stones;
+	if(stones==0){
+	  if(player.name=="Player 1"){
+	    alert("Congratulations " + document.getElementById("p1").innerHTML + "!! You have won!");
+	    return;
+	  } else {
+	    alert("Congratulations " + document.getElementById("p2").innerHTML + "!! You have won!");
+	    return;
+	  }
+        }
+	if(stones==4){
+	  if(player.name=="Player 1"){
+	    alert("Congratulations " + document.getElementById("p1").innerHTML + "! Irrespective of what " + document.getElementById("p2").innerHTML + " does now, you will win the game!");
+	  } else {
+	    alert("Congratulations " + document.getElementById("p2").innerHTML + "! Irrespective of what " + document.getElementById("p1").innerHTML + " does now, you will win the game!");
+	  }
+	}
+
+	if(player.name=="Player 1"){
+	    var p1 = document.getElementsByClassName("box1");
+	    var p2 = document.getElementsByClassName("box2");
+	    p1[0].style.visibility = "hidden";
+	    p2[0].style.visibility = "visible";
+	} else {
+	    var p1 = document.getElementsByClassName("box1");
+	    var p2 = document.getElementsByClassName("box2");
+	    p1[0].style.visibility = "visible";
+	    p2[0].style.visibility = "hidden";
+	}
+}
+
+</script>
+</html>
